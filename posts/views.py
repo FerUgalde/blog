@@ -1,3 +1,5 @@
+from django.forms import BaseModelForm
+from django.http import HttpResponse
 from django.views.generic import (
     ListView,
     DetailView,
@@ -7,6 +9,7 @@ from django.views.generic import (
 )
 
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post
 
 class PostListView(ListView):
@@ -18,10 +21,14 @@ class PostDetailView(DetailView):
     template_name = 'posts/detail.html'
     model = Post
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'posts/new.html'
     model = Post
     fields = ['title', 'subtitle', 'author', 'body', 'status']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class PostUpdateView(UpdateView):
     template_name = 'posts/edit.html'
