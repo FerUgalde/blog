@@ -9,11 +9,13 @@
     <h4>Author: {{ post.author }}</h4><br>
     <p>{{ post.body }}</p>
     <p>Created on: {{ post.created_on }}</p>
-    <p>Status {{ post.status }}</p>
+    <p>Status: {{ post.status }}</p>
+    {% if post.author == user %}
     <div>
         <a href="{% url 'edit' post.id %}" class="btn btn-primary">Edit</a>
         <a href="{% url 'delete' post.id %}" class="btn btn-danger">Delete</a>
     </div>
+    {% endif %}
 </div>
 
 {% endblock content %}

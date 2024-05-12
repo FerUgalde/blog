@@ -2,6 +2,7 @@
 
 from django.db import migrations
 
+
 def populate_status(apps, schema_editor):
     entries = {
         "draft": "A post that is not ready to be published",
@@ -13,12 +14,11 @@ def populate_status(apps, schema_editor):
         status_obj = Status(name=key, description=value)
         status_obj.save()
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('posts', '0001_initial'),
+        ("posts", "0001_initial"),
     ]
 
-    operations = [
-        migrations.RunPython(populate_status)
-    ]
+    operations = [migrations.RunPython(populate_status)]
